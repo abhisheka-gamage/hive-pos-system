@@ -16,6 +16,7 @@ class NavSubItemController extends Controller
         try {
             $sub_items = NavSubItem::when(!is_null($request->search), fn($q) =>
                 $q->where('display_name' , 'like', "%{$request->search}%")
+                    ->orWhere('url' , 'like', "%{$request->search}%")
             )
             ->with(['parent.parent', 'permissions.roles', 'types'])->paginate(request('entries', 10));
 

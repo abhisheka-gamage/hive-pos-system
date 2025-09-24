@@ -39,3 +39,25 @@ Route::prefix('users')->group(function(){
         )->name('users-edit');
     });
 });
+
+Route::prefix('products')->group(function(){
+    Route::prefix('retailers')->group(function(){
+        Route::get('/index', fn()=> Inertia::render('products/retailers/Index'))->name('product_retailers-view');
+        Route::get('/create', fn()=> Inertia::render('products/retailers/Create'))->name('product_retailers-create');
+        Route::get('/edit/{id}', fn($id) =>
+            Inertia::render('products/retailers/Edit', [
+                'id' => $id,
+            ])
+        )->name('product_retailers-edit');
+    });
+
+    Route::prefix('product')->group(function(){
+        Route::get('/index', fn()=> Inertia::render('products/product/Index'))->name('products-view');
+        Route::get('/create', fn()=> Inertia::render('products/product/Create'))->name('products-create');
+        Route::get('/edit/{id}', fn($id) =>
+            Inertia::render('products/product/Edit', [
+                'id' => $id,
+            ])
+        )->name('products-edit');
+    });
+});

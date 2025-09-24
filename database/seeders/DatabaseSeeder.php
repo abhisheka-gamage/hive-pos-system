@@ -22,12 +22,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $adminRole = Role::create(['name' => 'Admin']);
+        $adminRole = Role::create(['name' => 'Super Admin']);
         Role::create(['name' => 'User']);
 
         $user = User::factory()->create([
             'name' => 'Developer Admin',
-            'email' => 'dev@admin.com',
+            'email' => 'dev@test.com',
             'password' => Hash::make(123),
         ]);
 
@@ -39,6 +39,12 @@ class DatabaseSeeder extends Seeder
 
         $nav_sub_item_create = Permission::create(['name' => 'nav_sub_item-create']);
         $nav_sub_item_view = Permission::create(['name' => 'nav_sub_item-view']);
+
+        $user_roles_create = Permission::create(['name' => 'user_roles-create']);
+        $user_roles_view = Permission::create(['name' => 'user_roles-view']);
+
+        $users_create = Permission::create(['name' => 'users-create']);
+        $users_view = Permission::create(['name' => 'users-view']);
 
         $home_view = Permission::create(['name' => 'home-view']);
 
@@ -52,6 +58,12 @@ class DatabaseSeeder extends Seeder
             'display_name' => 'Permissions',
             'code' => 'permissions',
             'icon' => 'pi pi-lock'
+        ]);
+
+        $nav_header_users = NavHeader::create([
+            'display_name' => 'Users',
+            'code' => 'users',
+            'icon' => 'pi pi-user'
         ]);
 
         $nav_headers = NavItem::create([
@@ -70,6 +82,18 @@ class DatabaseSeeder extends Seeder
             'nav_header_id' => $nav_header->id,
             'display_name' => 'Navigation Sub Menu',
             'code' => 'nav_sub_items'
+        ]);
+
+        $user_roles = NavItem::create([
+            'nav_header_id' => $nav_header_users->id,
+            'display_name' => 'User Roles',
+            'code' => 'user_roles'
+        ]);
+
+        $users = NavItem::create([
+            'nav_header_id' => $nav_header_users->id,
+            'display_name' => 'Users',
+            'code' => 'users'
         ]);
 
         NavSubItem::insert([
@@ -126,10 +150,46 @@ class DatabaseSeeder extends Seeder
                 'url' => '/permissions/sub_items/index',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
+            [
+                'nav_item_id' => $user_roles->id,
+                'permission_id' => $user_roles_create->id,
+                'nav_type_id' => 2,
+                'display_name' => 'Add Roles',
+                'url' => '/users/roles/create',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nav_item_id' => $user_roles->id,
+                'permission_id' => $user_roles_view->id,
+                'nav_type_id' => 1,
+                'display_name' => 'View Roles',
+                'url' => '/users/roles/index',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nav_item_id' => $users->id,
+                'permission_id' => $users_create->id,
+                'nav_type_id' => 2,
+                'display_name' => 'Add Users',
+                'url' => '/users/user/create',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nav_item_id' => $users->id,
+                'permission_id' => $users_view->id,
+                'nav_type_id' => 1,
+                'display_name' => 'View Users',
+                'url' => '/users/user/index',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
-        $user->assignRole('Admin');
+        $user->assignRole('Super Admin');
         $adminRole->givePermissionTo([
             $nav_header_create->name,
             $nav_header_view->name,
@@ -137,7 +197,11 @@ class DatabaseSeeder extends Seeder
             $nav_item_view->name,
             $nav_sub_item_create->name,
             $nav_sub_item_view->name,
-            $home_view->name
+            $home_view->name,
+            $user_roles_create->name,
+            $user_roles_view->name,
+            $users_create->name,
+            $users_view->name,
         ]);
     }
 }

@@ -5,6 +5,8 @@ use App\Http\Controllers\Web\V1\Navigation\NavHeaderController;
 use App\Http\Controllers\Web\V1\Navigation\NavItemController;
 use App\Http\Controllers\Web\V1\Navigation\NavSubItemController;
 use App\Http\Controllers\Web\V1\PermissionController;
+use App\Http\Controllers\Web\V1\ProductController;
+use App\Http\Controllers\Web\V1\ProductRetailerController;
 use App\Http\Controllers\Web\V1\RoleController;
 use App\Http\Controllers\Web\V1\UserController;
 use Illuminate\Foundation\Application;
@@ -60,6 +62,24 @@ Route::middleware('auth')->group(function () {
             Route::post('/save', [UserController::class, 'store']);
             Route::post('/{user}', [UserController::class, 'show']);
             Route::post('/{user}/update', [UserController::class, 'update']);
+        });
+
+
+    });
+    Route::prefix('products')->group(function(){
+        Route::prefix('retailers')->group(function(){
+            Route::post('/index', [ProductRetailerController::class, 'index']);
+            Route::post('/filter', [ProductRetailerController::class, 'filter']);
+            Route::post('/save', [ProductRetailerController::class, 'store']);
+            Route::post('/{user}', [ProductRetailerController::class, 'show']);
+            Route::post('/{user}/update', [ProductRetailerController::class, 'update']);
+        });
+
+        Route::prefix('product')->group(function(){
+            Route::post('/index', [ProductController::class, 'index']);
+            Route::post('/save', [ProductController::class, 'store']);
+            Route::post('/{user}', [ProductController::class, 'show']);
+            Route::post('/{user}/update', [ProductController::class, 'update']);
         });
     });
 
