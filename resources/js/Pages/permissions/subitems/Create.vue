@@ -7,6 +7,7 @@ import axios, { AxiosError, type AxiosResponse } from 'axios'
 import { useThrobber } from '@/stores/throbber'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { router } from '@inertiajs/vue3'
+import SaveButton from '@/Components/SaveButton.vue'
 
 interface HeaderItem {
     id: number
@@ -153,11 +154,11 @@ watch([() => permission.parent, () => permission.type], () => {
 <template>
     <AuthenticatedLayout>
         <template #header>
-            Add Navigation Sub Menus
+            Create Navigation Sub Menus
         </template>
 
         <div class="flex flex-col items-center gap-6 mt-6">
-            <FloatLabel class="w-1/2">
+            <FloatLabel class="w-full">
                 <Dropdown
                     class="w-full"
                     :options="header_options"
@@ -171,7 +172,7 @@ watch([() => permission.parent, () => permission.type], () => {
                 <label for="parent">Navbar Header</label>
             </FloatLabel>
 
-            <FloatLabel class="w-1/2">
+            <FloatLabel class="w-full">
                 <Dropdown
                     class="w-full"
                     :options="items_options"
@@ -184,7 +185,7 @@ watch([() => permission.parent, () => permission.type], () => {
                 <label for="parent">Navbar Item</label>
             </FloatLabel>
 
-            <FloatLabel class="w-1/2">
+            <FloatLabel class="w-full">
                 <InputText
                     class="w-full"
                     required
@@ -194,7 +195,7 @@ watch([() => permission.parent, () => permission.type], () => {
                 <label for="name">Name</label>
             </FloatLabel>
 
-            <FloatLabel class="w-1/2">
+            <FloatLabel class="w-full">
                 <Dropdown
                     class="w-full"
                     :options="type_options"
@@ -207,7 +208,7 @@ watch([() => permission.parent, () => permission.type], () => {
                 <label for="parent">Permission Type</label>
             </FloatLabel>
 
-            <FloatLabel class="w-1/2">
+            <FloatLabel class="w-full">
                 <InputText
                     class="w-full"
                     v-model="permission.permission_name"
@@ -217,7 +218,7 @@ watch([() => permission.parent, () => permission.type], () => {
                 <label for="permission">Permission</label>
             </FloatLabel>
 
-            <FloatLabel class="w-1/2">
+            <FloatLabel class="w-full">
                 <InputText
                     class="w-full"
                     v-model="permission.url"
@@ -226,11 +227,9 @@ watch([() => permission.parent, () => permission.type], () => {
                 <label for="url">URL</label>
             </FloatLabel>
 
-            <Button
-                @click="save()"
-                class="px-6 py-2 text-white bg-cyan-500 shadow-md rounded-md transition ease-in-out hover:scale-105">
-                Save
-            </Button>
+            <div class="flex justify-center">
+                <SaveButton @click="save()" />
+            </div>
         </div>
     </AuthenticatedLayout>
 </template>

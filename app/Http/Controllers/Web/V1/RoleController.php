@@ -122,4 +122,23 @@ class RoleController extends Controller
             ], 500);
         }
     }
+
+    public function filter(): JsonResponse
+    {
+        try {
+            $role = Role::select(['id', 'name'])->get();
+
+            return response()->json([
+                'result' => true,
+                'data' => $role,
+                'message' => null
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'result' => false,
+                'data' => null,
+                'message' => $th->getMessage()
+            ],500);
+        }
+    }
 }

@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'Developer Admin',
             'email' => 'dev@admin.com',
             'password' => Hash::make(123),
-            'role_id' => $adminRole->id
         ]);
 
         $nav_header_create = Permission::create(['name' => 'nav_header-create']);

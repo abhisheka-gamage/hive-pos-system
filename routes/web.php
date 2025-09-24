@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\V1\Navigation\NavItemController;
 use App\Http\Controllers\Web\V1\Navigation\NavSubItemController;
 use App\Http\Controllers\Web\V1\PermissionController;
 use App\Http\Controllers\Web\V1\RoleController;
+use App\Http\Controllers\Web\V1\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -49,8 +50,16 @@ Route::middleware('auth')->group(function () {
         Route::prefix('roles')->group(function(){
             Route::post('/index', [RoleController::class, 'index']);
             Route::post('/save', [RoleController::class, 'store']);
+            Route::post('/filter', [RoleController::class, 'filter']);
             Route::post('/{role}', [RoleController::class, 'show']);
             Route::post('/{role}/update', [RoleController::class, 'update']);
+        });
+
+        Route::prefix('user')->group(function(){
+            Route::post('/index', [UserController::class, 'index']);
+            Route::post('/save', [UserController::class, 'store']);
+            Route::post('/{user}', [UserController::class, 'show']);
+            Route::post('/{user}/update', [UserController::class, 'update']);
         });
     });
 

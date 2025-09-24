@@ -7,6 +7,7 @@ import axios, { AxiosError } from 'axios';
 import { useThrobber } from '@/stores/throbber';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { router } from "@inertiajs/vue3"
+import SaveButton from '@/Components/SaveButton.vue';
 
 const permission = reactive<{
     name: string|null,
@@ -62,8 +63,8 @@ const save = () => {
             Create Navbar Menu Header
         </template>
 
-        <div class="flex flex-col items-center gap-7 mt-10">
-            <FloatLabel class="w-1/2">
+        <div class="flex flex-col gap-7 w-full mt-5">
+            <FloatLabel class="w-full">
                 <InputText
                     class="w-full"
                     required
@@ -73,7 +74,7 @@ const save = () => {
                 <label for="name">Name</label>
             </FloatLabel>
 
-            <FloatLabel class="w-1/2">
+            <FloatLabel class="w-full">
                 <InputText
                     class="w-full"
                     required
@@ -83,7 +84,7 @@ const save = () => {
                 <label for="code">Code</label>
             </FloatLabel>
 
-            <FloatLabel class="w-1/2">
+            <FloatLabel class="w-full">
                 <InputText
                     class="w-full"
                     required
@@ -92,8 +93,9 @@ const save = () => {
                 />
                 <label for="code">Icon</label>
             </FloatLabel>
-
-            <Button @click="save()" class="px-6 py-2 text-white bg-cyan-500 shadow-md rounded-md transition ease-in-out hover:scale-105 z-[900]">Save</Button>
+            <div class="flex justify-center">
+                <SaveButton @click="save()" />
+            </div>
         </div>
     </AuthenticatedLayout>
 </template>

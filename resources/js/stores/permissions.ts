@@ -1,10 +1,21 @@
 import { defineStore } from "pinia";
 import { MenuItem } from "primevue/menuitem";
 
+interface NavHeader {
+    label: string
+    icon: string
+    items: {
+        label: string
+        items: {
+            label: string
+            command: () => void
+        }[]
+    }[]
+}
 
 export const PermissionStore = defineStore("permissions", {
   state: () => ({
-    details: null as MenuItem[] | null,
+    details: null as NavHeader[] | null,
     routePermissions: [] as string[],
   }),
   getters: {
@@ -12,7 +23,7 @@ export const PermissionStore = defineStore("permissions", {
     hasRoutePermission: (state) => (perm: string ) => state.routePermissions.includes(perm),
   },
   actions: {
-    setPermission(permission: MenuItem[]) {
+    setPermission(permission: NavHeader[]) {
       this.details = permission;
     },
     setRoutePermissions(perms: string[]) {

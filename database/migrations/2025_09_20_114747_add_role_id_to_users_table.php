@@ -12,11 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('role_id')->after('email');
             $table->string('img_path')->nullable();
             $table->softDeletes();
-
-            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 

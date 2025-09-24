@@ -30,12 +30,12 @@ Route::prefix('users')->group(function(){
         )->name('user_roles-edit');
     });
     Route::prefix('user')->group(function(){
-        Route::get('/index', fn()=> Inertia::render('users/users/Index'))->name('user-view');
-        Route::get('/create', fn()=> Inertia::render('users/users/Create'))->name('user-create');
+        Route::get('/index', fn()=> Inertia::render('users/users/Index'))->name('users-view');
+        Route::get('/create', fn()=> Inertia::render('users/users/Create'))->name('users-create');
         Route::get('/edit/{id}', fn($id) =>
-            Inertia::render('users/roles/Edit', [
+            Inertia::render('users/users/Edit', [
                 'id' => $id,
             ])
-        )->name('user_roles-edit');
+        )->name('users-edit');
     });
 });
