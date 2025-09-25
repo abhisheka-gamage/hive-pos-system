@@ -12,12 +12,8 @@ const errors = ref<Record<string, string[]>>({})
 const options = ref<{ id: number; name: string }[]>([])
 
 const props = defineProps<{
-  modelValue: number | null
-  url: string
-  label: string
-  params?: any
-  optionLabel?: string | null | undefined
-  optionValue?: string | null | undefined
+    modelValue: number | null,
+    invalid?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -29,20 +25,10 @@ const selectedValue = computed({
   set: (val) => emit('update:modelValue', val),
 })
 
-watch(
-  () => props.params,
-  () => {
-    getOptions()
-  },
-  { deep: true }
-)
-
 const getOptions = () => {
   throbber.setStatus(true)
   axios
-    .post(props.url, {
-        params: props.params
-    })
+    .post('/products/retailers/filter')
     .then((response: AxiosResponse) => {
       options.value = response.data.data
     })
@@ -71,11 +57,13 @@ onMounted(() => {
     <Dropdown
       filter
       v-model="selectedValue"
+      show-clear
       :options="options"
-      :option-label="props.optionLabel || 'name'"
-      :option-value="props.optionValue || 'id'"
+      option-label="name"
+      option-value="id"
       class="w-full"
+      :invalid="props.invalid"
     />
-    <label>{{ props.label }}</label>
+    <label>Retailers</label>
   </FloatLabel>
 </template>

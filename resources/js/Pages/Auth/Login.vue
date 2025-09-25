@@ -5,6 +5,7 @@ import Toast from "primevue/toast"
 import Throbber from "@/Components/Throbber.vue"
 import { useThrobber } from "@/stores/throbber"
 import { router } from "@inertiajs/vue3"
+import type { AxiosError } from "axios"
 
 const email = ref("")
 const password = ref("")
@@ -16,14 +17,45 @@ async function handleLogin() {
   loading.value = true
   throbber.setStatus(true)
   try {
-    await router.post(route("login"), { email: email.value, password: password.value })
+    await router.post(
+      route("login"),
+      { email: email.value, password: password.value },
+      {
+        onError: (errors) => {
+          // Loop through validation errors and show them
+          Object.values(errors).forEach((msg) => {
+            toast.add({
+              severity: "error",
+              summary: "Login failed",
+              detail: String(msg),
+              life: 4000,
+            })
+          })
+        },
+        onSuccess: () => {
+          toast.add({
+            severity: "success",
+            summary: "Welcome",
+            detail: "You have logged in successfully",
+            life: 3000,
+          })
+        },
+      }
+    )
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Invalid login credentials"
+    // Handle unexpected errors (network, 500, etc.)
+    let message = "Something went wrong. Please try again."
+    if ((err as AxiosError<{message:string}>)?.response?.data?.message) {
+      message = (err as AxiosError<{message:string}>).response?.data?.message as string
+    } else if (err instanceof Error) {
+      message = err.message
+    }
+
     toast.add({
       severity: "error",
-      summary: "Login failed",
+      summary: "Error",
       detail: message,
-      life: 3000,
+      life: 4000,
     })
   } finally {
     loading.value = false
@@ -31,6 +63,7 @@ async function handleLogin() {
   }
 }
 </script>
+
 
 <template>
   <div class="relative flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-100 to-sky-100 dark:from-gray-900 dark:to-slate-800 overflow-hidden">

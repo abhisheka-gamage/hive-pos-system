@@ -60,4 +60,24 @@ Route::prefix('products')->group(function(){
             ])
         )->name('products-edit');
     });
+
+    Route::prefix('batches')->group(function(){
+        Route::get('/index', fn()=> Inertia::render('products/batches/Index'))->name('product_batches-view');
+        Route::get('/create', fn()=> Inertia::render('products/batches/Create'))->name('product_batches-create');
+        Route::get('/edit/{id}', fn($id) =>
+            Inertia::render('products/batches/Edit', [
+                'id' => $id,
+            ])
+        )->name('product_batches-edit');
+    });
+
+    Route::prefix('stocks')->group(function(){
+        Route::get('/index', fn()=> Inertia::render('products/stocks/Index'))->name('product_stocks-view');
+        Route::get('/create', fn()=> Inertia::render('products/stocks/Create'))->name('product_stocks-create');
+        Route::get('/edit/{id}', fn($id) =>
+            Inertia::render('products/stocks/Edit', [
+                'id' => $id,
+            ])
+        )->name('product_stocks-edit');
+    });
 });

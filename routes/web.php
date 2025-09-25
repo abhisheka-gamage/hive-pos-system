@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Web\V1\BatchController;
 use App\Http\Controllers\Web\V1\Navigation\NavHeaderController;
 use App\Http\Controllers\Web\V1\Navigation\NavItemController;
 use App\Http\Controllers\Web\V1\Navigation\NavSubItemController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Web\V1\PermissionController;
 use App\Http\Controllers\Web\V1\ProductController;
 use App\Http\Controllers\Web\V1\ProductRetailerController;
 use App\Http\Controllers\Web\V1\RoleController;
+use App\Http\Controllers\Web\V1\StockController;
 use App\Http\Controllers\Web\V1\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -77,9 +79,25 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('product')->group(function(){
             Route::post('/index', [ProductController::class, 'index']);
+            Route::post('/filter', [ProductController::class, 'filter']);
             Route::post('/save', [ProductController::class, 'store']);
             Route::post('/{user}', [ProductController::class, 'show']);
             Route::post('/{user}/update', [ProductController::class, 'update']);
+        });
+
+        Route::prefix('batches')->group(function(){
+            Route::post('/index', [BatchController::class, 'index']);
+            Route::post('/filter', [BatchController::class, 'filter']);
+            Route::post('/get_code', [BatchController::class, 'get_code']);
+            Route::post('/save', [BatchController::class, 'store']);
+            Route::post('/{user}', [BatchController::class, 'show']);
+            Route::post('/{user}/update', [BatchController::class, 'update']);
+        });
+
+        Route::prefix('stocks')->group(function(){
+            Route::post('/sample', [StockController::class, 'sample']);
+            Route::post('/upload', [StockController::class, 'upload']);
+            Route::post('/index', [StockController::class, 'index']);
         });
     });
 

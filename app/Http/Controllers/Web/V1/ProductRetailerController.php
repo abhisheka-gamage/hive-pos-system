@@ -98,7 +98,7 @@ class ProductRetailerController extends Controller
             return response()->json([
                 'result' => true,
                 'data' => $data,
-                'message' => 'User updated successfully.',
+                'message' => null,
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();

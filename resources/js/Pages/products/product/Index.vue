@@ -2,19 +2,25 @@
 <script setup lang="ts">
 import axios, { AxiosError, type AxiosResponse } from 'axios'
 import { ref, computed, onMounted } from 'vue'
-import { useToast } from 'primevue'
+import { Badge, useToast } from 'primevue'
 import { useThrobber } from '@/stores/throbber'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import PaginatedTable from '@/Components/PaginatedTable.vue'
-import RetailerDropdown from '@/Components/filters/RetailerDropdown.vue'
+import RetailerDropdown from '@/Components/filters/RetialerSelect.vue'
+import SearchButton from '@/Components/SearchButton.vue'
+import Status from '@/Components/filters/Status.vue'
 
 const toast = useToast()
 const products = ref<Product[]>([])
 const throbber = useThrobber()
 const searchFitler = ref<{
-    retailer: number|null
+    retailer: number|null,
+    status: boolean|null,
+    search: string|null
 }>({
-    retailer: null
+    retailer: null,
+    status: null,
+    search: null
 });
 
 interface Product {
@@ -22,6 +28,7 @@ interface Product {
     code: string,
     barcode: string|null
     created_at: string,
+    status: boolean
     retailer: {
         id: number,
         name: string
@@ -37,14 +44,13 @@ const paginatedMeta = ref({
 })
 
 const entries = ref(10)
-const searchTerm = ref('')
 
-const getRetailers = (page:number = 1) => {
+const getProducts = (page:number = 1) => {
     throbber.setStatus(true)
     axios.post('/products/product/index', {
         entries: entries.value,
         page: page,
-        search: searchTerm.value,
+        search_filter: searchFitler.value
     })
     .then((response: AxiosResponse) => {
         products.value = response.data.data.data
@@ -70,7 +76,7 @@ const getRetailers = (page:number = 1) => {
         throbber.setStatus(false)
     })
 }
-onMounted(() => getRetailers())
+onMounted(() => getProducts())
 </script>
 <template>
     <AuthenticatedLayout>
@@ -78,14 +84,21 @@ onMounted(() => getRetailers())
             View Products
         </template>
 
-        <div class="grid grid-cols-2 mb-10 m-3">
+        <div class="grid grid-cols-2 mb-10 m-3 gap-5">
             <RetailerDropdown v-model="searchFitler.retailer" />
+
+            <Status v-model="searchFitler.status" />
+
+            <div></div>
+            <div class="flex justify-end">
+                <SearchButton @click="getProducts" />
+            </div>
         </div>
 
         <PaginatedTable
-            @update:page="getRetailers($event)"
-            @update:search="searchTerm = $event; getRetailers()"
-            @update:per-page="entries = $event; getRetailers()"
+            @update:page="getProducts($event)"
+            @update:search="searchFitler.search = $event; getProducts()"
+            @update:per-page="entries = $event; getProducts()"
             :pagination-meta="paginatedMeta"
         >
             <thead>
@@ -95,6 +108,7 @@ onMounted(() => getRetailers())
                     <th class="p-2">Retailer</th>
                     <th class="p-2">Barcode</th>
                     <th class="p-2">Created At</th>
+                    <th class="p-2">Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -104,9 +118,13 @@ onMounted(() => getRetailers())
                     <td class="text-center p-2">{{ value.retailer.name }}</td>
                     <td class="text-center p-2">{{ value.barcode ?? '-' }}</td>
                     <td class="text-center p-2">{{ new Date(value.created_at).toLocaleString() }}</td>
+                    <td class="text-center p-2">
+                        <Badge v-if="value.status" severity="success">Active</Badge>
+                        <Badge v-else severity="danger">Inactive</Badge>
+                    </td>
                 </tr>
                 <tr v-else>
-                    <td class="p-3 text-center text-gray-500" colspan="4">No Items Found</td>
+                    <td class="p-3 text-center text-gray-500" colspan="5">No Items Found</td>
                 </tr>
             </tbody>
         </PaginatedTable>

@@ -19,4 +19,10 @@ class Product extends Model
     {
         return $this->hasOne(ProductRetailer::class, 'id', 'retailer_id');
     }
+
+    public function batch(): Relation
+    {
+        return $this->hasOne(Batch::class, 'product_id', 'id')->where('status', 1);
+    }
+
 }

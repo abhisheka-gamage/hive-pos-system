@@ -80,10 +80,13 @@ onMounted(() => getRetailers())
                 </tr>
             </thead>
             <tbody>
-                <tr class="border-b border-gray-500 dark:border-white" v-for="(value, id) in retailers" :key="id">
+                <tr v-if="retailers.length" class="border-b border-gray-500 dark:border-white" v-for="(value, id) in retailers" :key="id">
                     <td class="text-center p-2">{{ value.name }}</td>
                     <td class="text-center p-2">{{ value.code }}</td>
                     <td class="text-center p-2">{{ new Date(value.created_at).toLocaleString() }}</td>
+                </tr>
+                <tr v-else>
+                    <td class="p-3 text-center text-gray-500" colspan="3">No Items Found</td>
                 </tr>
             </tbody>
         </PaginatedTable>

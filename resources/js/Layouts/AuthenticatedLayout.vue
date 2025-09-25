@@ -77,7 +77,7 @@ onMounted(() => {
           </button>
         </div>
 
-        <nav class="mt-6 space-y-2 px-2">
+        <nav class="mt-6 space-y-2 px-2 h-1/2">
           <div v-for="header in permissions.details" :key="header.label" class="mb-1">
             <button
               class="w-full flex items-center justify-between gap-2 px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 font-semibold"
@@ -102,7 +102,7 @@ onMounted(() => {
                   </button>
 
                   <transition name="slide-fade">
-                    <div v-if="openItem === item.label" class="ml-4 mt-1 space-y-1">
+                    <div v-if="openItem === item.label" class="ml-4 mt-1 space-y-1 border-l">
                       <button
                         v-for="sub in item.items"
                         :key="sub.label"

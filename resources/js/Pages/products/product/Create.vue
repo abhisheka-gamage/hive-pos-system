@@ -6,7 +6,7 @@ import { FloatLabel, InputNumber, InputText, useToast } from 'primevue';
 import { onMounted, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import SaveButton from '@/Components/SaveButton.vue';
-import RetailerDropdown from '@/Components/filters/RetailerDropdown.vue';
+import RetailerSelect from '@/Components/filters/RetialerSelect.vue';
 
 interface Product {
     retailer:number|null
@@ -20,7 +20,6 @@ interface Product {
 const toast = useToast();
 const throbber = useThrobber();
 const errors = ref<Record<string, string[]>>({});
-const retailers = ref();
 const product = ref<Product>({
     retailer:null,
     name:null,
@@ -32,27 +31,6 @@ const product = ref<Product>({
 
 const hasError = (key: string): boolean => {
     return Boolean(errors.value?.[key]?.length);
-}
-
-const getRetailers = () => {
-    throbber.setStatus(true)
-    axios.post('/products/retailers/filter')
-    .then((response: AxiosResponse) => {
-        retailers.value = response.data.data
-    })
-    .catch((err: unknown) => {
-        const error = err as AxiosError<{ message?: string; errors?: Record<string, string[]> }>
-        errors.value = error.response?.data.errors || {}
-        toast.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error.response?.data?.message || 'Failed to fetch retailers',
-            life: 3000,
-        })
-    })
-    .finally(() => {
-      throbber.setStatus(false)
-    })
 }
 
 const save = () => {
@@ -84,13 +62,12 @@ const save = () => {
     });
 }
 
-onMounted(()=> {getRetailers();})
 </script>
 <template>
     <AuthenticatedLayout>
         <template #header>Add Product</template>
         <div class="flex flex-col gap-7 w-full mt-5">
-            <RetailerDropdown v-model="product.retailer" />
+            <RetailerSelect v-model="product.retailer" />
 
             <FloatLabel class="w-full">
                 <InputText
