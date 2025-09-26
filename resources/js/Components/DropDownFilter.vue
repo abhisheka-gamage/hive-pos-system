@@ -38,7 +38,7 @@ watch(
 )
 
 const getOptions = () => {
-  throbber.setStatus(true)
+  throbber.start()
   axios
     .post(props.url, {
         params: props.params
@@ -57,7 +57,7 @@ const getOptions = () => {
       })
     })
     .finally(() => {
-      throbber.setStatus(false)
+      throbber.stop()
     })
 }
 

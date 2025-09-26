@@ -46,7 +46,7 @@ const paginatedMeta = ref({
 const entries = ref(10)
 
 const getProducts = (page:number = 1) => {
-    throbber.setStatus(true)
+    throbber.start()
     axios.post('/products/product/index', {
         entries: entries.value,
         page: page,
@@ -73,7 +73,7 @@ const getProducts = (page:number = 1) => {
         })
     })
     .finally(() => {
-        throbber.setStatus(false)
+        throbber.stop()
     })
 }
 onMounted(() => getProducts())

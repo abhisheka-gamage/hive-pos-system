@@ -60,6 +60,9 @@ class DatabaseSeeder extends Seeder
         $stocks_create = Permission::create(['name' => 'product_stocks-create']);
         $stocks_view   = Permission::create(['name' => 'product_stocks-view']);
 
+        $invoice_create   = Permission::create(['name' => 'sales_invoices-create']);
+        $invoice_view   = Permission::create(['name' => 'sales_invoices-view']);
+
         $home_view = Permission::create(['name' => 'home-view']);
 
         NavType::create(['name' => 'View']);
@@ -84,6 +87,12 @@ class DatabaseSeeder extends Seeder
             'display_name' => 'Products',
             'code' => 'products',
             'icon' => 'pi pi-shopping-bag'
+        ]);
+
+        $nav_header_sales = NavHeader::create([
+            'display_name' => 'Sales',
+            'code' => 'sales',
+            'icon' => 'pi pi-truck'
         ]);
 
         $nav_headers = NavItem::create([
@@ -138,6 +147,12 @@ class DatabaseSeeder extends Seeder
             'nav_header_id' => $nav_header_products->id,
             'display_name' => 'Stocks',
             'code' => 'product_stocks'
+        ]);
+
+        $invoices = NavItem::create([
+            'nav_header_id' => $nav_header_sales->id,
+            'display_name' => 'Invoices',
+            'code' => 'sales_invoices'
         ]);
 
         NavSubItem::insert([
@@ -321,6 +336,17 @@ class DatabaseSeeder extends Seeder
                 'created_at'    => now(),
                 'updated_at'    => now(),
             ],
+
+            //Invoices
+            [
+                'nav_item_id'   => $invoices->id,
+                'permission_id' => $invoice_create->id,
+                'nav_type_id'   => 2,
+                'display_name'  => 'View Invoices',
+                'url'           => '/sales/invoices/index',
+                'created_at'    => now(),
+                'updated_at'    => now(),
+            ],
         ]);
 
         $user->assignRole('Super Admin');
@@ -344,6 +370,8 @@ class DatabaseSeeder extends Seeder
             $batches_view->name,
             $stocks_create->name,
             $stocks_view->name,
+            $invoice_create->name,
+            $invoice_view->name
         ]);
 
         StockMovementType::insert([

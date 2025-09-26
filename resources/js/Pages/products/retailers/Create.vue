@@ -24,7 +24,7 @@ const hasError = (key: string): boolean => {
 }
 
 const save = () => {
-    throbber.setStatus(true);
+    throbber.start();
     axios.post('/products/retailers/save',{
         retailer: retailer.value
     })
@@ -48,7 +48,7 @@ const save = () => {
         });
     })
     .finally(() => {
-        throbber.setStatus(false);
+        throbber.stop();
     });
 }
 

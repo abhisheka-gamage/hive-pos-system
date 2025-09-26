@@ -25,7 +25,7 @@ const handleFileChange = (e: Event) => {
 };
 
 const downloadSample = async () => {
-    throbber.setStatus(true);
+    throbber.start();
     try {
         const response = await axios.post('/products/stocks/sample', {}, {
             responseType: 'blob',
@@ -54,7 +54,7 @@ const downloadSample = async () => {
             life: 3000
         });
     } finally {
-        throbber.setStatus(false);
+        throbber.stop();
     }
 };
 
@@ -69,7 +69,7 @@ const uploadExcel = async () => {
         return;
     }
 
-    throbber.setStatus(true);
+    throbber.start();
     const formData = new FormData();
     formData.append('file', file.value);
 
@@ -94,7 +94,7 @@ const uploadExcel = async () => {
             life: 3000
         });
     })
-    .finally(() => throbber.setStatus(false));
+    .finally(() => throbber.stop());
 };
 
 

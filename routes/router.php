@@ -2,6 +2,9 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+
+Route::get('/settings', fn()=> Inertia::render('Settings'))->name('settings-view');
+
 Route::prefix('permissions')->group(function(){
     Route::prefix('headers')->group(function(){
         Route::get('/index', fn()=> Inertia::render('permissions/headers/Index'))->name('nav_header-view');
@@ -80,4 +83,8 @@ Route::prefix('products')->group(function(){
             ])
         )->name('product_stocks-edit');
     });
+});
+
+Route::prefix('sales')->group(function(){
+    Route::get('/', fn()=> Inertia::render('sales/invoices/Create'))->name('sales-create');
 });

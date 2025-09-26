@@ -28,7 +28,7 @@ const hasError = (key: string): boolean => {
 }
 
 const save = () => {
-    throbber.setStatus(true);
+    throbber.start();
     axios.post('/permissions/headers/save',{
         permission
     })
@@ -52,7 +52,7 @@ const save = () => {
         });
     })
     .finally(() => {
-        throbber.setStatus(false);
+        throbber.stop();
     });
 }
 

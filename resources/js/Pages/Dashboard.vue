@@ -1,9 +1,8 @@
 <script setup lang="ts">
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { useThrobber } from '@/stores/throbber';
 import { useUserStore } from '@/stores/user';
 import { Head } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
 
 const user = useUserStore();
 </script>
@@ -16,7 +15,14 @@ const user = useUserStore();
             <h2
                 class="text-md font-semibold leading-tight"
             >
-                Dashboard
+                <div class="flex justify-between items-center">
+                    <div>
+                        Dashboard
+                    </div>
+                    <a :href="route('sales-create')" target="_blank">
+                        <PrimaryButton>Sales Mode <i class="pi pi-tags ms-2"></i></PrimaryButton>
+                    </a>
+                </div>
             </h2>
         </template>
         <h1>Welcome {{ user?.details?.name }} back to the store,</h1>

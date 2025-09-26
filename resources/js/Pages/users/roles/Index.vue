@@ -30,7 +30,7 @@ const paginatedMeta = ref({
 })
 
 const getUserRoles = (page:number = 1) => {
-    throbber.setStatus(true);
+    throbber.start();
     axios.post('/users/roles/index', {
         entries: entries.value,
         page: page,
@@ -57,7 +57,7 @@ const getUserRoles = (page:number = 1) => {
         })
     })
     .finally(() => {
-        throbber.setStatus(false)
+        throbber.stop()
     })
 }
 

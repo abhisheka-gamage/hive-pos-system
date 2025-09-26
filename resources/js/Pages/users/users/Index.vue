@@ -34,7 +34,7 @@ const entries = ref(10)
 const searchTerm = ref('')
 
 const getUsers = (page:number = 1) => {
-    throbber.setStatus(true)
+    throbber.start()
     axios.post('/users/user/index', {
         entries: entries.value,
         page: page,
@@ -61,7 +61,7 @@ const getUsers = (page:number = 1) => {
         })
     })
     .finally(() => {
-        throbber.setStatus(false)
+        throbber.stop()
     })
 }
 

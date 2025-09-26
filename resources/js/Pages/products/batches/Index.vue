@@ -54,7 +54,7 @@ const paginatedMeta = ref({
 const entries = ref(10)
 
 const getBatches = (page:number = 1) => {
-    throbber.setStatus(true)
+    throbber.start()
     axios.post('/products/batches/index', {
         entries: entries.value,
         page: page,
@@ -81,7 +81,7 @@ const getBatches = (page:number = 1) => {
         })
     })
     .finally(() => {
-        throbber.setStatus(false)
+    throbber.stop()
     })
 }
 onMounted(() => getBatches())

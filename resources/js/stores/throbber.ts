@@ -10,6 +10,13 @@ export const useThrobber = defineStore("loading", {
   actions: {
     setStatus(status: boolean) {
       this.details = status;
+    },
+    start(){
+        this.details = true;
+    },
+    stop(){
+        this.details = false;
     }
+
   }
 });

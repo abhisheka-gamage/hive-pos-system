@@ -32,7 +32,7 @@ const entries = ref(10)
 const searchTerm = ref('')
 
 const getPermission = (page:number = 1) => {
-    throbber.setStatus(true)
+    throbber.start()
     axios.post('/permissions/items/index', {
         entries: entries.value,
         page: page,
@@ -59,7 +59,7 @@ const getPermission = (page:number = 1) => {
         })
     })
     .finally(() => {
-        throbber.setStatus(false)
+        throbber.stop()
     })
 }
 

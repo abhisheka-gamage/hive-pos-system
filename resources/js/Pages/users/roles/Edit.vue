@@ -35,7 +35,7 @@ const searchTerms = ref<Record<string, string>>({});
 const allSelected = ref<Record<string, boolean>>({});
 
 const getRoleDetails = () => {
-    throbber.setStatus(true);
+    throbber.start();
     axios.post(`/users/roles/${id}`)
     .then((response:AxiosResponse) => role.value = response.data.data)
     .catch((err:unknown) => {
@@ -47,11 +47,11 @@ const getRoleDetails = () => {
             life: 3000
         });
     })
-    .finally(() => throbber.setStatus(false))
+    .finally(() => throbber.stop())
 }
 
 const getPermissions  = () => {
-    throbber.setStatus(true);
+    throbber.start();
     axios.post('/permissions/index')
     .then((response:AxiosResponse) => {
         permissions.value = response.data.data.map((data: any) => {
@@ -73,7 +73,7 @@ const getPermissions  = () => {
             life: 3000
         });
     })
-    .finally(()=>throbber.setStatus(false))
+    .finally(()=>throbber.stop())
 }
 
 const toggleAll = (type: string, value: boolean) => {
@@ -102,7 +102,7 @@ const filteredPermissions = computed(() => {
 })
 
 const save = () => {
-    throbber.setStatus(true);
+    throbber.start();
     axios.post(`/users/roles/${id}/update`, { permissions: permissions.value })
     .then(() => {
         router.visit('/users/roles/index');
@@ -122,7 +122,7 @@ const save = () => {
             life: 3000
         });
     })
-    .finally(() => throbber.setStatus(false))
+    .finally(() => throbber.stop())
 }
 
 onMounted(async ()=>{ await getRoleDetails(); getPermissions() })

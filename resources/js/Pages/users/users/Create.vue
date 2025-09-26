@@ -35,7 +35,7 @@ const toast = useToast()
 const throbber = useThrobber()
 
 const getRoles = async () => {
-  throbber.setStatus(true)
+  throbber.start()
   try {
     const response: AxiosResponse = await axios.post('/users/roles/filter')
     roles.value = response.data.data
@@ -49,13 +49,13 @@ const getRoles = async () => {
       life: 3000
     })
   } finally {
-    throbber.setStatus(false)
+    throbber.stop()
   }
 }
 
 const save = async () => {
   loading.value = true
-  throbber.setStatus(true)
+  throbber.start()
   try {
     await axios.post('/users/user/save', { user })
     toast.add({
@@ -76,7 +76,7 @@ const save = async () => {
     })
   } finally {
     loading.value = false
-    throbber.setStatus(false)
+    throbber.stop()
   }
 }
 

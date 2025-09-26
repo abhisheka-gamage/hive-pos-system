@@ -31,7 +31,7 @@ const hasError = (key: string): boolean => {
 }
 
 const save = () => {
-  throbber.setStatus(true)
+  throbber.start()
     axios.post('/permissions/items/save', {
         permission,
     })
@@ -55,7 +55,7 @@ const save = () => {
         })
     })
     .finally(() => {
-        throbber.setStatus(false)
+        throbber.stop()
     })
 }
 
@@ -64,7 +64,7 @@ onMounted(() => {
 })
 
 const getParents = () => {
-    throbber.setStatus(true)
+    throbber.start()
     axios.post('/permissions/headers/filter')
     .then((response: AxiosResponse) => {
         parent_options.value = response.data.data
@@ -80,7 +80,7 @@ const getParents = () => {
         })
     })
     .finally(() => {
-      throbber.setStatus(false)
+      throbber.stop()
     })
 }
 </script>

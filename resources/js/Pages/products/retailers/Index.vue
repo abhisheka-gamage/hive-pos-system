@@ -29,7 +29,7 @@ const entries = ref(10)
 const searchTerm = ref('')
 
 const getRetailers = (page:number = 1) => {
-    throbber.setStatus(true)
+    throbber.start()
     axios.post('/products/retailers/index', {
         entries: entries.value,
         page: page,
@@ -56,7 +56,7 @@ const getRetailers = (page:number = 1) => {
         })
     })
     .finally(() => {
-        throbber.setStatus(false)
+        throbber.stop()
     })
 }
 onMounted(() => getRetailers())

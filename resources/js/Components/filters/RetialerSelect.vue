@@ -26,7 +26,7 @@ const selectedValue = computed({
 })
 
 const getOptions = () => {
-  throbber.setStatus(true)
+  throbber.start()
   axios
     .post('/products/retailers/filter')
     .then((response: AxiosResponse) => {
@@ -43,7 +43,7 @@ const getOptions = () => {
       })
     })
     .finally(() => {
-      throbber.setStatus(false)
+      throbber.stop()
     })
 }
 

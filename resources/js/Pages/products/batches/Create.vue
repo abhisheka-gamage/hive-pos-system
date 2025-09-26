@@ -37,7 +37,7 @@ const hasError = (key: string): boolean => {
 }
 
 const save = () => {
-    throbber.setStatus(true);
+    throbber.start();
     axios.post('/products/batches/save',{
         batch: batch.value
     })
@@ -61,12 +61,12 @@ const save = () => {
         });
     })
     .finally(() => {
-        throbber.setStatus(false);
+        throbber.stop();
     });
 }
 
 const getCode = () => {
-  throbber.setStatus(true)
+  throbber.start()
   axios
     .post('/products/batches/get_code', {
         product_id: batch.value.product
@@ -85,7 +85,7 @@ const getCode = () => {
       })
     })
     .finally(() => {
-      throbber.setStatus(false)
+      throbber.stop()
     })
 }
 

@@ -9,6 +9,7 @@ import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
 import ToastService from 'primevue/toastservice';
 import Aura from '@primeuix/themes/aura';
+import ConfirmationService from 'primevue/confirmationservice';
 import 'primeicons/primeicons.css';
 
 const pinia = createPinia();
@@ -36,6 +37,7 @@ createInertiaApp({
             },
         });
         vueApp.use(ToastService);
+        vueApp.use(ConfirmationService);
         vueApp.mount(el);
     },
     progress: {

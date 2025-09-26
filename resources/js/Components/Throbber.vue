@@ -14,7 +14,7 @@ const throbber = useThrobber();
 .loader {
   width: 50px;
   aspect-ratio: 1;
-  --c:no-repeat radial-gradient(farthest-side,#514b82 92%,#0000);
+  --c:no-repeat radial-gradient(farthest-side,#009dff 92%,#ffffffe9);
   background:
     var(--c) 50%  0,
     var(--c) 50%  100%,
@@ -29,7 +29,7 @@ const throbber = useThrobber();
   position: absolute;
   inset:0;
   margin: 3px;
-  background: repeating-conic-gradient(#0000 0 35deg,#514b82 0 90deg);
+  background: repeating-conic-gradient(#0000 0 35deg,#0093f4 0 90deg);
   -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 3px),#000 0);
   border-radius: 50%;
 }

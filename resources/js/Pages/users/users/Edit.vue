@@ -35,7 +35,7 @@ const roles = ref<Role[]>([])
 const errors = ref<Record<string, string[]>>({})
 
 const getUserDetails = () => {
-    throbber.setStatus(true);
+    throbber.start();
     axios.post(`/users/user/${id}`)
     .then((response:AxiosResponse) => {
         user.value = response.data.data
@@ -50,11 +50,11 @@ const getUserDetails = () => {
             life: 3000
         });
     })
-    .finally(() => throbber.setStatus(false))
+    .finally(() => throbber.stop())
 }
 
 const getRoles = async () => {
-    throbber.setStatus(true)
+    throbber.start()
     try {
         const response: AxiosResponse = await axios.post('/users/roles/filter')
         roles.value = response.data.data
@@ -68,12 +68,12 @@ const getRoles = async () => {
         life: 3000
         })
     } finally {
-        throbber.setStatus(false)
+        throbber.stop()
     }
 }
 
 const save = () => {
-    throbber.setStatus(true);
+    throbber.start();
     axios.post(`/users/user/${id}/update`, { user: user.value, role: role.value })
     .then(() => {
         router.visit('/users/user/index');
@@ -93,7 +93,7 @@ const save = () => {
             life: 3000
         });
     })
-    .finally(() => throbber.setStatus(false))
+    .finally(() => throbber.stop())
 }
 
 onMounted(async ()=>{ await getUserDetails(); getRoles() })

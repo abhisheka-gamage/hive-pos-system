@@ -43,7 +43,7 @@ const items_options = ref<HeaderItem[]>([])
 const type_options = ref<TypeItem[]>([])
 
 const save = () => {
-    throbber.setStatus(true)
+    throbber.start()
     axios.post('/permissions/sub_items/save', {
         permission,
     })
@@ -67,12 +67,12 @@ const save = () => {
         })
     })
     .finally(() => {
-        throbber.setStatus(false)
+        throbber.stop()
     })
 }
 
 const getHeaders = () => {
-    throbber.setStatus(true)
+    throbber.start()
     axios.post('/permissions/headers/filter')
     .then((response: AxiosResponse) => {
         header_options.value = response.data.data
@@ -88,12 +88,12 @@ const getHeaders = () => {
         })
     })
     .finally(() => {
-        throbber.setStatus(false)
+        throbber.stop()
     })
 }
 
 const getItems = () => {
-    throbber.setStatus(true)
+    throbber.start()
     axios.post('/permissions/items/filter', { parent: permission.header })
     .then((response: AxiosResponse) => {
         items_options.value = response.data.data
@@ -109,12 +109,12 @@ const getItems = () => {
         })
     })
     .finally(() => {
-        throbber.setStatus(false)
+        throbber.stop()
     })
 }
 
 const getTypes = () => {
-    throbber.setStatus(true)
+    throbber.start()
     axios.post('/permissions/types/filter')
     .then((response: AxiosResponse) => {
         type_options.value = response.data.data
@@ -130,7 +130,7 @@ const getTypes = () => {
         })
     })
     .finally(() => {
-        throbber.setStatus(false)
+        throbber.stop()
     })
 }
 
